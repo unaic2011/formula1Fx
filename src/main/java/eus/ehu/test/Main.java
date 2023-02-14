@@ -2,6 +2,8 @@ package eus.ehu.test;
 
 import eus.ehu.data_access.DbAccessManager;
 
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
         DbAccessManager dataManager = DbAccessManager.getInstance();
@@ -16,7 +18,8 @@ public class Main {
         dataManager.storePilot("Fernando Alonso", "Spanish", 2061);
         System.out.println(dataManager.getAllPilots());
         System.out.println(dataManager.getPilotsByNationality("British"));
-        dataManager.getAllPilots().
+        System.out.println(dataManager.getPilotsByPoints(1000));
+        dataManager.deletePilotByName(JOptionPane.showInputDialog("Write the name of the pilot you want to erase from the database"));
     }
 
 }

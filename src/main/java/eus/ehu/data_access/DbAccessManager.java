@@ -106,6 +106,47 @@ public class DbAccessManager {
         return result;
     }
 
+    public List<Pilot> getPilotsByPoints(int points){
+
+        this.open();
+
+        String sql = "SELECT id, name, nationality, points "
+                + "FROM pilots WHERE points >= ?";
+
+        var result = new ArrayList<Pilot>();
+
+        try (PreparedStatement pstmt  = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1, points);
+
+            ResultSet rs  = pstmt.executeQuery();
+            while (rs.next()) {
+                result.add(new Pilot(rs.getString("name"), rs.getString("nationality"), rs.getInt("points")));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        this.close();
+        return result;
+    }
+
+    public int deletePilotByName(String pilotName) {
+        this.open();
+        int amount = 0;
+        String sql = "DELETE FROM pilots WHERE name = ?";
+        try (PreparedStatement pstmt  = conn.prepareStatement(sql)) {
+            pstmt.setString(1, pilotName);
+            amount = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        this.close();
+
+        return amount;
+    }
+
 
 
 
